@@ -1,0 +1,260 @@
+/* QUANT.OS Institutional Quantitative Terminal Design System */
+:root {
+  --bg-primary: #020403;
+  --bg-secondary: #080D0B;
+  --bg-panel: #0C1310;
+  --bg-card: rgba(14, 22, 18, 0.78);
+  --bg-card-hover: rgba(20, 31, 26, 0.9);
+  --border-muted: #27332E;
+  --border-subtle: rgba(39, 51, 46, 0.6);
+  --border-active: #339671;
+  --border-mint: rgba(175, 210, 201, 0.4);
+  
+  --text-primary: #F0F1F1;
+  --text-secondary: #9EA1A1;
+  --text-muted: #58635E;
+  
+  --accent-green: #339671;
+  --accent-green-glow: rgba(51, 150, 113, 0.35);
+  --accent-mint: #AFD2C9;
+  --accent-mint-glow: rgba(175, 210, 201, 0.25);
+  --signal-red: #D96868;
+  --signal-red-glow: rgba(217, 104, 104, 0.25);
+  --accent-amber: #D4AC65;
+  --accent-amber-glow: rgba(212, 172, 101, 0.25);
+
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', Menlo, Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-primary);
+  position: relative;
+}
+
+/* Monospace font utility */
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+/* Subtle Terminal Grid Overlay */
+.terminal-grid {
+  background-size: 36px 36px;
+  background-image: 
+    linear-gradient(to right, rgba(39, 51, 46, 0.22) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(39, 51, 46, 0.22) 1px, transparent 1px);
+}
+
+.terminal-radial-glow {
+  background: radial-gradient(circle at 50% 18%, rgba(51, 150, 113, 0.08) 0%, transparent 60%),
+              radial-gradient(circle at 85% 75%, rgba(175, 210, 201, 0.04) 0%, transparent 50%),
+              radial-gradient(circle at 15% 85%, rgba(212, 172, 101, 0.03) 0%, transparent 50%);
+}
+
+/* Subtle CRT Scanline effect (ultra-light, non-distracting) */
+.scanlines {
+  position: relative;
+}
+.scanlines::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.18) 50%);
+  background-size: 100% 4px;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+/* Glassmorphic Panel Styles */
+.terminal-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-muted);
+  border-radius: 8px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.terminal-panel:hover {
+  border-color: rgba(51, 150, 113, 0.5);
+  box-shadow: 0 8px 30px rgba(0, 4, 3, 0.7), 0 0 15px rgba(51, 150, 113, 0.08);
+}
+
+/* Glowing Border */
+.glow-border-green {
+  border: 1px solid var(--accent-green);
+  box-shadow: 0 0 12px var(--accent-green-glow);
+}
+
+.glow-border-mint {
+  border: 1px solid var(--accent-mint);
+  box-shadow: 0 0 14px var(--accent-mint-glow);
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020403;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27332E;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #339671;
+}
+
+/* Motion & Sliding Page Transitions */
+.slide-enter-right {
+  animation: slideInFromRight 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.slide-enter-left {
+  animation: slideInFromLeft 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.slide-exit-left {
+  animation: slideOutToLeft 0.35s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+}
+
+.slide-exit-right {
+  animation: slideOutToRight 0.35s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translate3d(40px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-40px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideOutToLeft {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(-35px, 0, 0);
+  }
+}
+
+@keyframes slideOutToRight {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(35px, 0, 0);
+  }
+}
+
+/* Flow Line Animation */
+@keyframes flowDash {
+  to {
+    stroke-dashoffset: -120;
+  }
+}
+
+.animate-flow-dash {
+  stroke-dasharray: 8 6;
+  animation: flowDash 2.5s linear infinite;
+}
+
+/* Pulse Glow Keyframes */
+@keyframes pulseDot {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.65;
+  }
+}
+
+.animate-pulse-dot {
+  animation: pulseDot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Ticker text marquee */
+@keyframes marqueeScroll {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+.animate-ticker-marquee {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: marqueeScroll 32s linear infinite;
+}
+
+.animate-ticker-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Custom interactive crosshair cursor helper (Desktop) */
+@media (min-width: 1024px) {
+  .terminal-cursor-active {
+    cursor: crosshair;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
